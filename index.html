@@ -34,80 +34,35 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        const masterData = [
+         const masterData = [
             { category: "Warframes", pts: 6000, items: [
-                { name: "Ash", desc: "Dropped by Grineer Manics or Tenno Lab." },
+                { name: "Ash", desc: "Dropped by Grineer Manics or through Tenno Lab research." },
+                { name: "Ash Prime", desc: "Acquired through Void Relic farming." },
                 { name: "Excalibur Umbra", desc: "Quest: The Sacrifice." },
-                { name: "Wisp Prime", desc: "Relic farming (Prime Access)." }
+                { name: "Wisp Prime", desc: "Relic farming (Prime Access)." },
+                { name: "Saryn", desc: "Acquired from Kela De Thaym on Sedna (Merrow)." },
+                { name: "Jade", desc: "Acquired from Operation: Belly of the Beast." },
+                { name: "Koumei", desc: "Acquired through the Koumei & the Five Fates update." }
             ]},
-            { category: "Lich/Sister Weapons (Rank 40)", pts: 4000, items: [
-                { name: "Kuva Bramma", desc: "Defeat a Kuva Lich with this weapon." },
-                { name: "Tenet Arca Plasmor", desc: "Defeat a Sister of Parvos with this weapon." }
+            { category: "Primary Weapons", pts: 3000, items: [
+                { name: "Acceltra Prime", desc: "Gauss Prime's signature weapon blueprints from relics." },
+                { name: "Braton Vandal", desc: "Acquired from Elite Sanctuary Onslaught." },
+                { name: "Kuva Bramma", desc: "Defeat a Kuva Lich spawned with a Bramma." },
+                { name: "Tenet Arca Plasmor", desc: "Defeat a Sister of Parvos spawned with a Plasmor." },
+                { name: "Gotva Prime", desc: "Initially a TennoCon drop; occasionally available via Baro Ki'Teer." }
             ]},
-            { category: "Necramechs", pts: 8000, items: [
-                { name: "Voidrig", desc: "Crafted via Necralisk (Loid)." },
-                { name: "Bonewidow", desc: "Blueprints from Loid." }
+            { category: "Secondary & Melee", pts: 3000, items: [
+                { name: "Laetum", desc: "Evolutionary weapon from Cavalero in the Zariman." },
+                { name: "Lex Prime", desc: "Classic high-damage secondary from relics." },
+                { name: "Glaive Prime", desc: "Highly sought-after melee from vaulted relics." },
+                { name: "Harmony", desc: "Scythe introduced in the 2024 'Jade Shadows' update." }
             ]},
-            { category: "Intrinsics (Rank 1-10)", pts: 1500, items: [
-                { name: "Railjack: Tactical", desc: "1,500 pts per rank up to 10." },
-                { name: "Drifter: Combat", desc: "1,500 pts per rank up to 10." }
+            { category: "Specialty Items", pts: 8000, items: [
+                { name: "Voidrig", desc: "Blueprints from Loid in the Necralisk. 8,000 pts total." },
+                { name: "Bonewidow", desc: "Melee-focused Necramech from Loid. 8,000 pts total." }
+            ]},
+            { category: "New 2026 Content (Coda/Höllvania)", pts: 4000, items: [
+                { name: "Coda Bassocyst", desc: "New 1999 variant weapon. 4,000 pts at Rank 40." },
+                { name: "Höllvania Node: The Circuit", desc: "Starchart completion in the 1999 expansion." }
             ]}
         ];
-
-        function App() {
-            const [completed, setCompleted] = useState(() => JSON.parse(localStorage.getItem('mr-data') || '[]'));
-            const [theme, setTheme] = useState('lotus');
-            const [activeInfo, setActiveInfo] = useState(null);
-
-            useEffect(() => localStorage.setItem('mr-data', JSON.stringify(completed)), [completed]);
-
-            const toggleItem = (name) => setCompleted(prev => prev.includes(name) ? prev.filter(i => i !== name) : [...prev, name]);
-            
-            const totalXP = masterData.reduce((acc, cat) => acc + (cat.items.filter(i => completed.includes(i.name)).length * cat.pts), 0);
-            const rank = Math.floor(Math.sqrt(totalXP / 2500));
-            const maxXP = 3126038; // Current Non-Founder Max
-
-            return (
-                <div>
-                    <div className="header">
-                        <h1>SYSTEMATIC MASTERY</h1>
-                        <button className="theme-toggle" onClick={() => {
-                            const newT = theme === 'lotus' ? 'orokin' : 'lotus';
-                            setTheme(newT); document.documentElement.setAttribute('data-theme', newT);
-                        }}>Switch Theme</button>
-                    </div>
-
-                    <div className="progress-box">
-                        <h3>Rank: {rank} | Total XP: {totalXP.toLocaleString()}</h3>
-                        <div className="bar"><div className="fill" style={{width: (totalXP/maxXP*100)+'%'}}></div></div>
-                        <p style={{fontSize: '12px'}}>Target: LR5 (3,126,038 XP)</p>
-                    </div>
-
-                    {masterData.map(cat => (
-                        <div key={cat.category}>
-                            <h2 style={{color: 'var(--secondary)'}}>{cat.category} ({cat.pts} pts)</h2>
-                            <div className="grid">
-                                {cat.items.map(item => (
-                                    <div key={item.name} style={{display: 'flex', flexDirection: 'column'}}>
-                                        <div className="card" style={{opacity: completed.includes(item.name) ? 0.5 : 1}}>
-                                            <label>
-                                                <input type="checkbox" checked={completed.includes(item.name)} onChange={() => toggleItem(item.name)} />
-                                                <span style={{textDecoration: completed.includes(item.name) ? 'line-through' : 'none'}}>{item.name}</span>
-                                            </label>
-                                            <button className="info-btn" onClick={() => setActiveInfo(activeInfo === item.name ? null : item.name)}>?</button>
-                                        </div>
-                                        {activeInfo === item.name && <div className="tooltip">{item.desc}</div>}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            );
-        }
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
-</body>
-</html>
