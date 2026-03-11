@@ -35,34 +35,100 @@
         const { useState, useEffect } = React;
 
          const masterData = [
-            { category: "Warframes", pts: 6000, items: [
-                { name: "Ash", desc: "Dropped by Grineer Manics or through Tenno Lab research." },
-                { name: "Ash Prime", desc: "Acquired through Void Relic farming." },
-                { name: "Excalibur Umbra", desc: "Quest: The Sacrifice." },
-                { name: "Wisp Prime", desc: "Relic farming (Prime Access)." },
-                { name: "Saryn", desc: "Acquired from Kela De Thaym on Sedna (Merrow)." },
-                { name: "Jade", desc: "Acquired from Operation: Belly of the Beast." },
-                { name: "Koumei", desc: "Acquired through the Koumei & the Five Fates update." }
-            ]},
-            { category: "Primary Weapons", pts: 3000, items: [
-                { name: "Acceltra Prime", desc: "Gauss Prime's signature weapon blueprints from relics." },
-                { name: "Braton Vandal", desc: "Acquired from Elite Sanctuary Onslaught." },
-                { name: "Kuva Bramma", desc: "Defeat a Kuva Lich spawned with a Bramma." },
-                { name: "Tenet Arca Plasmor", desc: "Defeat a Sister of Parvos spawned with a Plasmor." },
-                { name: "Gotva Prime", desc: "Initially a TennoCon drop; occasionally available via Baro Ki'Teer." }
-            ]},
-            { category: "Secondary & Melee", pts: 3000, items: [
-                { name: "Laetum", desc: "Evolutionary weapon from Cavalero in the Zariman." },
-                { name: "Lex Prime", desc: "Classic high-damage secondary from relics." },
-                { name: "Glaive Prime", desc: "Highly sought-after melee from vaulted relics." },
-                { name: "Harmony", desc: "Scythe introduced in the 2024 'Jade Shadows' update." }
-            ]},
-            { category: "Specialty Items", pts: 8000, items: [
-                { name: "Voidrig", desc: "Blueprints from Loid in the Necralisk. 8,000 pts total." },
-                { name: "Bonewidow", desc: "Melee-focused Necramech from Loid. 8,000 pts total." }
-            ]},
-            { category: "New 2026 Content (Coda/Höllvania)", pts: 4000, items: [
-                { name: "Coda Bassocyst", desc: "New 1999 variant weapon. 4,000 pts at Rank 40." },
-                { name: "Höllvania Node: The Circuit", desc: "Starchart completion in the 1999 expansion." }
-            ]}
-        ];
+    { category: "Warframes (6,000 pts)", pts: 6000, items: [
+        { name: "Ash", desc: "Dropped by Grineer Manics or Tenno Lab." }, { name: "Ash Prime", desc: "Relics." },
+        { name: "Atlas", desc: "Jordas Golem." }, { name: "Atlas Prime", desc: "Relics." },
+        { name: "Banshee", desc: "Dojo." }, { name: "Banshee Prime", desc: "Relics." },
+        { name: "Baruuk", desc: "Little Duck." }, { name: "Baruuk Prime", desc: "Relics." },
+        { name: "Caliban", desc: "Bounties." }, { name: "Caliban Prime", desc: "Relics." },
+        { name: "Chroma", desc: "Quest." }, { name: "Chroma Prime", desc: "Relics." },
+        { name: "Citrine", desc: "Mirror Defense." }, { name: "Cyte-09", desc: "1999 Content." },
+        { name: "Dagath", desc: "Dojo." }, { name: "Dante", desc: "Disruption." },
+        { name: "Ember", desc: "Sargas Ruk." }, { name: "Ember Prime", desc: "Relics." },
+        { name: "Equinox", desc: "Tyl Regor." }, { name: "Equinox Prime", desc: "Relics." },
+        { name: "Excalibur", desc: "Lech Kril." }, { name: "Excalibur Prime", desc: "Founder Item." },
+        { name: "Excalibur Umbra", desc: "Quest." }, { name: "Frost", desc: "Lech Kril/Vor." },
+        { name: "Frost Prime", desc: "Relics." }, { name: "Gara", desc: "Cetus." },
+        { name: "Gara Prime", desc: "Relics." }, { name: "Garuda", desc: "Fortuna." },
+        { name: "Garuda Prime", desc: "Relics." }, { name: "Gauss", desc: "Disruption." },
+        { name: "Gauss Prime", desc: "Relics." }, { name: "Grendel", desc: "Arbitration." },
+        { name: "Grendel Prime", desc: "Relics." }, { name: "Gyre", desc: "Zariman." },
+        { name: "Gyre Prime", desc: "Relics." }, { name: "Harrow", desc: "Defection/Spy." },
+        { name: "Harrow Prime", desc: "Relics." }, { name: "Hildryn", desc: "Exploiter Orb." },
+        { name: "Hildryn Prime", desc: "Relics." }, { name: "Hydroid", desc: "Vay Hek." },
+        { name: "Hydroid Prime", desc: "Relics." }, { name: "Inaros", desc: "Quest." },
+        { name: "Inaros Prime", desc: "Relics." }, { name: "Ivara", desc: "Spy Missions." },
+        { name: "Ivara Prime", desc: "Relics." }, { name: "Jade", desc: "Operation." },
+        { name: "Khora", desc: "Sanctuary Onslaught." }, { name: "Khora Prime", desc: "Relics." },
+        { name: "Koumei", desc: "2024 Update." }, { name: "Kullervo", desc: "Duviri." },
+        { name: "Lavos", desc: "Father (Deimos)." }, { name: "Lavos Prime", desc: "Relics." },
+        { name: "Limbo", desc: "Quest." }, { name: "Limbo Prime", desc: "Relics." },
+        { name: "Loki", desc: "Hyena Pack." }, { name: "Loki Prime", desc: "Relics." },
+        { name: "Mag", desc: "The Sergeant." }, { name: "Mag Prime", desc: "Relics." },
+        { name: "Mesa", desc: "Mutalist Alad V." }, { name: "Mesa Prime", desc: "Relics." },
+        { name: "Mirage", desc: "Quest." }, { name: "Mirage Prime", desc: "Relics." },
+        { name: "Nekros", desc: "Leantis." }, { name: "Nekros Prime", desc: "Relics." },
+        { name: "Nezha", desc: "Dojo." }, { name: "Nezha Prime", desc: "Relics." },
+        { name: "Nidus", desc: "Infested Salvage." }, { name: "Nidus Prime", desc: "Relics." },
+        { name: "Nova", desc: "Raptors." }, { name: "Nova Prime", desc: "Relics." },
+        { name: "Nyx", desc: "Phorid." }, { name: "Nyx Prime", desc: "Relics." },
+        { name: "Oberon", desc: "Eximus Drops." }, { name: "Oberon Prime", desc: "Relics." },
+        { name: "Octavia", desc: "Quest/Caches." }, { name: "Octavia Prime", desc: "Relics." },
+        { name: "Protea", desc: "Granum Void." }, { name: "Protea Prime", desc: "Relics." },
+        { name: "Qorvex", desc: "Sanctum Anatomica." }, { name: "Revenant", desc: "Cetus." },
+        { name: "Revenant Prime", desc: "Relics." }, { name: "Rhino", desc: "Jackal." },
+        { name: "Rhino Prime", desc: "Relics." }, { name: "Saryn", desc: "Kela De Thaym." },
+        { name: "Saryn Prime", desc: "Relics." }, { name: "Sevagoth", desc: "Railjack." },
+        { name: "Sevagoth Prime", desc: "Relics." }, { name: "Styanax", desc: "Chipper (Kahl)." },
+        { name: "Titania", desc: "Quest." }, { name: "Titania Prime", desc: "Relics." },
+        { name: "Trinity", desc: "Ambulas." }, { name: "Trinity Prime", desc: "Relics." },
+        { name: "Valkyr", desc: "Alad V." }, { name: "Valkyr Prime", desc: "Relics." },
+        { name: "Vauban", desc: "Nightwave." }, { name: "Vauban Prime", desc: "Relics." },
+        { name: "Volt", desc: "Dojo." }, { name: "Volt Prime", desc: "Relics." },
+        { name: "Voruna", desc: "Lua Thrax." }, { name: "Wisp", desc: "Ropalolyst." },
+        { name: "Wisp Prime", desc: "Relics." }, { name: "Wukong", desc: "Dojo." },
+        { name: "Wukong Prime", desc: "Relics." }, { name: "Xaku", desc: "Deimos." },
+        { name: "Xaku Prime", desc: "Relics." }, { name: "Yareli", desc: "Quest." },
+        { name: "Yareli Prime", desc: "Relics." }, { name: "Zephyr", desc: "Dojo." },
+        { name: "Zephyr Prime", desc: "Relics." }
+    ]},
+    { category: "Primary & Secondary Weapons (3,000 pts)", pts: 3000, items: [
+        { name: "Acceltra", desc: "Ur, Uranus." }, { name: "Acceltra Prime", desc: "Relics." },
+        { name: "Aeolak", desc: "Zariman." }, { name: "Afentis", desc: "Kahl's Garrison." },
+        { name: "Alternox", desc: "Gyre's signature." }, { name: "Ambassador", desc: "Railjack Survival." },
+        { name: "Amprex", desc: "Dojo." }, { name: "Arca Plasmor", desc: "Dojo." },
+        { name: "Astilla Prime", desc: "Relics." }, { name: "AX-52", desc: "1999 expansion." },
+        { name: "Baza Prime", desc: "Relics." }, { name: "Boar Prime", desc: "Relics." },
+        { name: "Braton Prime", desc: "Relics." }, { name: "Bubonico", desc: "Dojo." },
+        { name: "Cedo", desc: "Father." }, { name: "Daikyu", desc: "Dojo." },
+        { name: "Epitaph", desc: "Railjack." }, { name: "Fulmin Prime", desc: "Relics." },
+        { name: "Gotva Prime", desc: "Baro/TennoCon." }, { name: "Ignis Wraith", desc: "Dojo." },
+        { name: "Laetum", desc: "Zariman." }, { name: "Lex Prime", desc: "Relics." },
+        { name: "Nataruk", desc: "New War." }, { name: "Phenmor", desc: "Zariman." },
+        { name: "Rubico Prime", desc: "Relics." }, { name: "Soma Prime", desc: "Relics." },
+        { name: "Trumna", desc: "Father." }, { name: "Zyx 1999", desc: "Expansion drop." }
+    ]},
+    { category: "Rank 40 Gear (4,000 pts)", pts: 4000, items: [
+        { name: "Coda Bassocyst", desc: "Infested Lich." }, { name: "Coda Hema", desc: "Infested Lich." },
+        { name: "Coda Sporothrix", desc: "Infested Lich." }, { name: "Kuva Bramma", desc: "Kuva Lich." },
+        { name: "Kuva Hek", desc: "Kuva Lich." }, { name: "Kuva Zarr", desc: "Kuva Lich." },
+        { name: "Tenet Arca Plasmor", desc: "Sister of Parvos." }, { name: "Tenet Envoy", desc: "Sister of Parvos." },
+        { name: "Tenet Glaxion", desc: "Sister of Parvos." }, { name: "Paracesis", desc: "Melee (Rank 40)." },
+        { name: "Tenet Agendus", desc: "Melee (Rank 40)." }
+    ]},
+    { category: "Specialty Gear (8,000 pts)", pts: 8000, items: [
+        { name: "Voidrig", desc: "Necramech." }, { name: "Bonewidow", desc: "Necramech." }
+    ]},
+    { category: "Intrinsics (1,500 pts per rank)", pts: 1500, items: [
+        { name: "Railjack: Tactical 1-10", desc: "15k total." }, { name: "Railjack: Piloting 1-10", desc: "15k total." },
+        { name: "Railjack: Gunnery 1-10", desc: "15k total." }, { name: "Railjack: Engineering 1-10", desc: "15k total." },
+        { name: "Railjack: Command 1-10", desc: "15k total." }, { name: "Drifter: Combat 1-10", desc: "15k total." },
+        { name: "Drifter: Riding 1-10", desc: "15k total." }, { name: "Drifter: Opportunity 1-10", desc: "15k total." },
+        { name: "Drifter: Endurance 1-10", desc: "15k total." }
+    ]},
+    { category: "Starchart & Steel Path (Varies)", pts: 1, items: [
+        { name: "Earth Completion", desc: "2,308 pts total." }, { name: "Venus Completion", desc: "1,269 pts total." },
+        { name: "Mercury Completion", desc: "49 pts total." }, { name: "Mars Completion", desc: "2,000 pts total." },
+        { name: "Steel Path: Earth Junction", desc: "1,000 pts." }, { name: "Steel Path: Venus Junction", desc: "1,000 pts." }
+    ]}
+];
