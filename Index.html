@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenno Mastery Tracker</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        :root {
+            --bg: #0c0c0e; --panel: #161618; --text: #e2e8f0;
+            --accent: #0ea5e9; --secondary: #c2a661; --border: #333;
+        }
+        [data-theme='orokin'] {
+            --bg: #f4f4f2; --panel: #ffffff; --text: #2d2d2d;
+            --accent: #c2a661; --secondary: #0ea5e9; --border: #e2e2e2;
+        }
+        body { background: var(--bg); color: var(--text); font-family: monospace; margin: 0; padding: 20px; transition: 0.3s; }
+        .header { text-align: center; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .progress-box { background: var(--panel); padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid var(--border); }
+        .bar { height: 10px; background: #333; border-radius: 5px; overflow: hidden; }
+        .fill { height: 100%; background: var(--accent); transition: 0.5s; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .card { background: var(--panel); border: 1px solid var(--border); padding: 10px; display: flex; align-items: center; justify-content: space-between; }
+        .info-btn { background: none; border: 1px solid var(--secondary); color: var(--secondary); border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px; }
+        .tooltip { font-size: 11px; color: var(--secondary); margin-top: 5px; padding: 5px; border-top: 1px solid var(--border); width: 100%; }
+        button.theme-toggle { background: var(--secondary); color: white; border: none; padding: 10px; cursor: pointer; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const masterData = [
+            { category: "Warframes", pts: 6000, items: [
+                { name: "Ash", desc: "Dropped by Grineer Manics or Tenno Lab." },
+                { name: "Excalibur Umbra", desc: "Quest: The Sacrifice." },
+                { name: "Wisp Prime", desc: "Relic farming (Prime Access)." }
+            ]},
+            { category: "Lich/Sister Weapons (Rank 40)", pts: 4000, items: [
+                { name: "Kuva Bramma", desc: "Defeat a Kuva Lich with this weapon." },
+                { name: "Tenet Arca Plasmor", desc: "Defeat a Sister of Parvos with this weapon." }
+            ]},
+            { category: "Necramechs", pts: 8000, items: [
+                { name: "Voidrig", desc: "Crafted via Necralisk (Loid)." },
+                { name: "Bonewidow", desc: "Blueprints from Loid." }
+            ]},
+            { category: "Intrinsics (Rank 1-10)", pts: 1500, items: [
+                { name: "Railjack: Tactical", desc: "1,500 pts per rank up to 10." },
+                { name: "Drifter: Combat", desc: "1,500 pts per rank up to 10." }
+            ]}
+        ];
+
+        function App() {
+            const [completed, setCompleted] = useState(() => JSON.parse(localStorage.getItem('mr-data') || '[]'));
+            const [theme, setTheme] = useState('lotus');
+            const [activeInfo, setActiveInfo] = useState(null);
+
+            useEffect(() => localStorage.setItem('mr-data', JSON.stringify(completed)), [completed]);
+
+            const toggleItem = (name) => setCompleted(prev => prev.includes(name) ? prev.filter(i => i !== name) : [...prev, name]);
+            
+            const totalXP = masterData.reduce((acc, cat) => acc + (cat.items.filter(i => completed.includes(i.name)).length * cat.pts), 0);
+            const rank = Math.floor(Math.sqrt(totalXP / 2500));
+            const maxXP = 3126038; // Current Non-Founder Max
+
+            return (
+                <div>
+                    <div className="header">
+                        <h1>SYSTEMATIC MASTERY</h1>
+                        <button className="theme-toggle" onClick={() => {
+                            const newT = theme === 'lotus' ? 'orokin' : 'lotus';
+                            setTheme(newT); document.documentElement.setAttribute('data-theme', newT);
+                        }}>Switch Theme</button>
+                    </div>
+
+                    <div className="progress-box">
+                        <h3>Rank: {rank} | Total XP: {totalXP.toLocaleString()}</h3>
+                        <div className="bar"><div className="fill" style={{width: (totalXP/maxXP*100)+'%'}}></div></div>
+                        <p style={{fontSize: '12px'}}>Target: LR5 (3,126,038 XP)</p>
+                    </div>
+
+                    {masterData.map(cat => (
+                        <div key={cat.category}>
+                            <h2 style={{color: 'var(--secondary)'}}>{cat.category} ({cat.pts} pts)</h2>
+                            <div className="grid">
+                                {cat.items.map(item => (
+                                    <div key={item.name} style={{display: 'flex', flexDirection: 'column'}}>
+                                        <div className="card" style={{opacity: completed.includes(item.name) ? 0.5 : 1}}>
+                                            <label>
+                                                <input type="checkbox" checked={completed.includes(item.name)} onChange={() => toggleItem(item.name)} />
+                                                <span style={{textDecoration: completed.includes(item.name) ? 'line-through' : 'none'}}>{item.name}</span>
+                                            </label>
+                                            <button className="info-btn" onClick={() => setActiveInfo(activeInfo === item.name ? null : item.name)}>?</button>
+                                        </div>
+                                        {activeInfo === item.name && <div className="tooltip">{item.desc}</div>}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
